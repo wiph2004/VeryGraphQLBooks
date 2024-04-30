@@ -16,7 +16,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    login: async (_, {email, password}) => {
+    login: async (_, { email, password }) => {
       const user = await User.findeOne({ email });
 
       if(!user){
@@ -32,11 +32,12 @@ const resolvers = {
       const token = signToken(user);
       return { token, user};
     },
-    addUser: async (_, args) => {
-      const user = await User.create(args);
+    addUser: async (_, { username, email, password}) => {
+      console.log("Hello");
+      const user = await User.create({ username, email, password});
       const token = signToken(user);
 
-      return { token, user };
+      return { token, profile: user };
     },
     saveBook: async (_, { bookData }, context) => {
       if (context.user) {
